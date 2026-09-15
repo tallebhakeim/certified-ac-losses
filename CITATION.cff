@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+authors:
+  - family-names: Talleb
+    given-names: Hakeim
+    orcid: https://orcid.org/0000-0002-2734-6242
+title: "Guaranteed error bounds for AC loss calculations in type-II superconductors: a certified framework from the Bean model to the E-J power law via a space-time convex-duality estimate: source code"
+license: MIT

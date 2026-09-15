@@ -1,0 +1,24 @@
+{
+ "title": "Guaranteed error bounds for AC loss calculations in type-II superconductors: a certified framework from the Bean model to the E-J power law via a space-time convex-duality estimate: source code",
+ "upload_type": "software",
+ "license": "MIT",
+ "creators": [
+  {
+   "name": "Talleb, Hakeim",
+   "affiliation": "Sorbonne Universite, Universite Paris-Saclay, CNRS, CentraleSupelec, Laboratoire de Genie Electrique et Electronique de Paris (GeePs), 91192 Gif-sur-Yvette, France",
+   "orcid": "0000-0002-2734-6242"
+  }
+ ],
+ "keywords": [
+  "AC losses",
+  "superconductors",
+  "Bean model",
+  "E-J power law",
+  "guaranteed error bounds",
+  "a posteriori error estimation",
+  "convex duality",
+  "Brezis-Ekeland-Nayroles principle",
+  "certified computation"
+ ],
+ "description": "Source code for the manuscript 'Guaranteed error bounds for AC loss calculations in type-II superconductors: a certified framework from the Bean model to the E-J power law via a space-time convex-duality estimate' (H. Talleb, submitted to Superconductor Science and Technology, 2026). Computes mathematically guaranteed two-sided bounds on the AC loss per cycle of a type-II superconducting slab, from the Bean critical-state model (Prigozhin sweeping process, exact-in-time Moreau catch-up, dual quadratic-programming certificates) to the E-J power law (proximal steps, exact primal-dual gap identity), and a space-time Brezis-Ekeland-Nayroles majorant (Theorem 1) that certifies spatial, temporal and quantity-of-interest errors simultaneously. Three verification suites (34 tests) reproduce every number and figure of the paper."
+}
