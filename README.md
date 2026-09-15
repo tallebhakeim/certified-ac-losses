@@ -1,6 +1,6 @@
 # certified-ac-losses
 
-[![DOI](https://zenodo.org/badge/DOI/ZENODO_DOI_PLACEHOLDER.svg)](https://doi.org/ZENODO_DOI_PLACEHOLDER)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22766982.svg)](https://doi.org/10.5281/zenodo.22766982)
 
 Guaranteed (mathematically certified) two-sided error bounds for AC loss
 calculations in type-II superconductors: from the Bean critical-state model
@@ -68,7 +68,7 @@ CentraleSupelec, Laboratoire de Genie Electrique et Electronique de Paris
 ## How to cite
 
 Please cite the manuscript above and the archived code (concept DOI, always
-resolving to the latest version): https://doi.org/ZENODO_DOI_PLACEHOLDER
+resolving to the latest version): https://doi.org/10.5281/zenodo.22766982
 
 ## Licence
 
