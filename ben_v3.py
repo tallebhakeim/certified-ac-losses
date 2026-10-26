@@ -43,8 +43,11 @@ from scipy.optimize import minimize_scalar
 from powerlaw_slab_certified import MU0
 
 
-def ben_certificate(model, hist, nsub=8):
+def ben_certificate(model, hist, nsub=8, Jc_seq=None):
     """Certificat BEN de la chaine prox : renvoie (slabs, eps_nodes).
+
+    Jc_seq (optionnel, revision R1.3) : Jc constant par slab de temps, Jc(t)
+    prescrit ; le Theoreme 1 vaut pour Phi(t, .) convexe a chaque instant.
 
     slabs[k] = surestimation garantie de Int_slab_k Int FY dx dt >= 0 ;
     eps_nodes[k] = sqrt(2/mu0 * sum_{j<=k} slabs[j]) >= ||H_v(t_k) - u(t_k)||_L2.
@@ -57,7 +60,10 @@ def ben_certificate(model, hist, nsub=8):
     K = len(hist["Ha"])
     H_prev = np.zeros(N + 1)
     slabs = np.empty(K)
+    Jc_save = model.Jc
     for k in range(K):
+        if Jc_seq is not None:
+            model.Jc = float(Jc_seq[k])
         Hk = hist["profiles"][k]
         e = Hk - H_prev
         inc = 0.5 * h * (e[:-1] + e[1:])
@@ -102,6 +108,7 @@ def ben_certificate(model, hist, nsub=8):
         c_opt = float(res.x) if np.isfinite(res.x) else c0
         slabs[k] = max(min(slab_of_c(c_opt), slab_of_c(c0)), 0.0)
         H_prev = Hk
+    model.Jc = Jc_save
     eps_nodes = np.sqrt(2.0 / MU0 * np.cumsum(slabs))
     return slabs, eps_nodes
 

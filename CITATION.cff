@@ -6,3 +6,5 @@ authors:
     orcid: https://orcid.org/0000-0002-2734-6242
 title: "Guaranteed error bounds for AC loss calculations in type-II superconductors: a certified framework from the Bean model to the E-J power law via a space-time convex-duality estimate: source code"
 license: MIT
+version: 1.1.0
+date-released: 2026-10-26

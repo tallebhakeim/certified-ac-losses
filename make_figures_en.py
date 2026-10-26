@@ -144,8 +144,9 @@ def powerlaw_figures():
     ns = [5, 10, 20, 40, 80]
     runs = {}
     for n_exp in ns:
-        m = PowerLawSlabCertified(n_exp=n_exp, N=800)
-        h = run_powerlaw_cycles(m, BETA, steps_per_cycle=200, n_cycles=3,
+        # revision R2-Q6 : meme discretisation que la section 4 (N=400, S=800)
+        m = PowerLawSlabCertified(n_exp=n_exp, N=400)
+        h = run_powerlaw_cycles(m, BETA, steps_per_cycle=800, n_cycles=3,
                                 with_certificates=False)
         runs[n_exp] = (m, h)
     m0 = runs[ns[0]][0]
@@ -154,7 +155,7 @@ def powerlaw_figures():
 
     # loops
     fig, ax = plt.subplots(figsize=(6.8, 5.0))
-    S = 200
+    S = 800
     for i, n_exp in enumerate(ns):
         m, h = runs[n_exp]
         Ha = h["Ha"][-S - 1:]
@@ -179,7 +180,7 @@ def powerlaw_figures():
     fig, ax = plt.subplots(figsize=(6.8, 4.4))
     for i, n_exp in enumerate([10, 20, 80]):
         m, h = runs[n_exp]
-        kq = len(h["Ha"]) - 100
+        kq = len(h["Ha"]) - S // 2             # H_a = 0, dernier cycle
         J = -np.diff(h["profiles"][kq]) / m.h
         xm = 0.5 * (m.x[:-1] + m.x[1:]) * 1e3
         ax.plot(xm, J / m.Jc, "-", color=CMAP(i / 2), lw=1.4, label=f"n = {n_exp}")
@@ -294,6 +295,10 @@ def ben_figures():
 
 
 if __name__ == "__main__":
+    import sys
+    if "--powerlaw-only" in sys.argv:
+        powerlaw_figures()
+        sys.exit(0)
     concept_figure()
     bean_figure()
     powerlaw_figures()

@@ -277,8 +277,11 @@ class PowerLawSlabCertified:
 # ----------------------------------------------------------------------
 
 def run_powerlaw_cycles(model, beta, freq=50.0, steps_per_cycle=200,
-                        n_cycles=3, with_certificates=True):
-    """Deroule n_cycles de H_a = Hm sin(2 pi f t) et certifie la chaine."""
+                        n_cycles=3, with_certificates=True, Jc_seq=None):
+    """Deroule n_cycles de H_a = Hm sin(2 pi f t) et certifie la chaine.
+
+    Jc_seq (optionnel) : Jc prescrit par pas de temps (revision R1.3).
+    """
     Hm = beta * model.Hp
     tau = 1.0 / (freq * steps_per_cycle)
     tgrid = tau * np.arange(1, n_cycles * steps_per_cycle + 1)
@@ -287,7 +290,10 @@ def run_powerlaw_cycles(model, beta, freq=50.0, steps_per_cycle=200,
     E = 0.0
     hist = {"t": tgrid, "Ha": Ha_seq, "meanH": [], "E": [], "gap": [],
             "profiles": {}, "newton_it": []}
+    Jc_save = model.Jc
     for k, hb in enumerate(Ha_seq):
+        if Jc_seq is not None:
+            model.Jc = float(Jc_seq[k])
         g = H
         H, it = model.prox_step(g, hb, tau)
         if with_certificates:
@@ -300,6 +306,7 @@ def run_powerlaw_cycles(model, beta, freq=50.0, steps_per_cycle=200,
         hist["gap"].append(gap)
         hist["newton_it"].append(it)
         hist["profiles"][k] = H.copy()
+    model.Jc = Jc_save
     for key in ("meanH", "E", "gap", "newton_it"):
         hist[key] = np.array(hist[key])
     hist["tau"] = tau

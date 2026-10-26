@@ -139,7 +139,9 @@ Deux choix structurants :
   (fluage a n fini) : il est stable a 0.2 % pres sous raffinement N=400/800
   et S=200/400. Le solveur certifie resout la physique que Bean ecrase.
 - **Physique du fluage** : depassement J > Jc pres des bords, decroissant
-  avec n (J_max/Jc = 1.35 a n=10, 1.03 a n=80), figv2_profils_J.
+  avec n (J_max/Jc = 1.52 a n=10, 1.24 a n=20, 1.06 a n=80, element de
+  bord, au passage a zero de H_a ; les valeurs 1.35/1.03 ecrites ici en
+  juillet etaient FAUSSES, corrigees a la revision R2-Q5), figv2_profils_J.
 - **Solveur** : Newton amorti (Hessienne plafonnee, initialisation par
   ecretage conique qui evite l'explosion |H'|^n au saut de CL) + polish
   L-BFGS-B ; residus ~ 1e-15, converge jusqu'a n = 80 sans reglage.
@@ -267,6 +269,42 @@ Ligne n°34 ajoutée au RECAPITULATIF maître.
    2014) reste un second front. Le Théorème 1 s'étend au p-curl 2D/3D
    (la représentation en flux devient une reconstruction H(div), c'est là
    que le flux équilibré 2D devient un vrai chantier).
+
+## Révision SuST R1 (SUST-107877, octobre 2026) : verify_revision.py 12/12 PASS
+
+Révision majeure (2 relecteurs). Nouveaux fichiers : `revision_certificates.py`
+(fonctions), `run_revision.py` (tous les nouveaux chiffres → `results_revision.json`,
+figures `fig_en_bean_ben.png` et `fig_en_loss_effectivity.png`, ~6 min sur 8 cœurs ;
+`--extra` complète le JSON, `--figures` redessine), `verify_revision.py` (12 tests).
+Modifiés (paramètre optionnel, défaut inchangé) : `ben_v3.ben_certificate(...,
+Jc_seq=None)` et `run_powerlaw_cycles(..., Jc_seq=None)` ; `make_figures_en.py`
+(fig. 3 et 5 à la discrétisation unifiée N=400, S=800 ; option `--powerlaw-only`).
+Générateurs : `build_manuscript.js` (lit le JSON, numérotation automatique des réf.
+par première citation, `HIGHLIGHT=1` → version surlignée), `build_response.js`
+(réponse anonyme, citations verbatim via `r1_paragraphs.json`). Les générateurs
+soumis sont gardés : `build_manuscript_v2_submitted.js`, `build_cover_v2_submitted.js`.
+
+Résultats clés :
+- **Bean non aligné via Théorème 1** : Phi* = Jc|s|, résidu par slab
+  eta_k = mu0 [Jc Int|c+S_k| − Int (c+S_k) p_k], indépendant de tau ; le bracket
+  contient Q_Bean à TOUTE résolution, largeur 46 % (N=100) → 1,4 % (N=3200),
+  ordre 1 ; ancien mode B 51-146 fois plus large ; indépendant du solveur (QP ou
+  écrêtage nodal). Rate-independence ⇒ certifie la VRAIE sinusoïde.
+- **Lemme 2 (comparaison)** : |u_s − u_p| ≤ D = Hm (omega tau)²/8 (u_p + D est
+  solution, test par (·)+) ⇒ bracket de la vraie sinusoïde, surcoût < 0,1 % ;
+  vérifié numériquement 34,52 ≤ 34,54 (borne quasi atteinte).
+- **Remarque 1** : forme avec erreur initiale (dérivée : R(t) ≥ mu0/2 d‖e‖²/dt).
+- **Effectivité sur la perte** 51 (n=5) à 315 (n=80) ; factorisation exacte
+  A × B × C (n=20 : 41,8 × 1,8 × 1,03) ; A domine (pas d'oubli de l'histoire +
+  fronts).
+- **Q6** : 2911,2 et 2944,6 = S = 200 (reproduits à 0,05 près), ordre 1 en tau
+  (ratio 2,00) ; tout est maintenant à N=400, S=800.
+- **Jc(t) prescrit (Kim gelé)** : Théorème 1 valide, bracket contient la réf.
+  Jc(B) dépendant de la solution = QVI, ouvert.
+- **Coût** : certificat BEN = 29-66 % du temps total (loi puissance), dominé par
+  la recherche scalaire de c_k ; négligeable pour Bean.
+- Q(n) dépasse Bean puis redescend (Q_ref/Q_B = 1,020 ; 1,033 ; 1,028 à n = 20,
+  40, 80) ; l'excès N'EST PAS certifié par les brackets actuels (16-20 %).
 
 ## Références clés
 
